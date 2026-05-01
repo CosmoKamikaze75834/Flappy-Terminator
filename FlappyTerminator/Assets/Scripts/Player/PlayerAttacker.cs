@@ -9,7 +9,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (_inputSystem.AttackPressed)
         {
-            spawner.GetBullet();
+            spawner.SpawnBullet();
         }
     }
 }

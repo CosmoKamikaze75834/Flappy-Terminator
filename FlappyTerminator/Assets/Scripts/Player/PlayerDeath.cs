@@ -16,8 +16,6 @@ public class PlayerDeath : MonoBehaviour
     private void TurnOffMovement()
     {
         if (_player.TryGetComponent(out PlayerMover component))
-        {
             component.enabled = false;
-        }
     }
 }

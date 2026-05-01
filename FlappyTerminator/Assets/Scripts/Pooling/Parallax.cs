@@ -1,8 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
+    private const string MainText = "_MainTex";
+
     [SerializeField] private float _speed = 0.2f; 
 
     private Material _material;
@@ -16,6 +17,6 @@ public class Parallax : MonoBehaviour
     private void Update()
     {
         _distance += Time.deltaTime * _speed;
-        _material.SetTextureOffset("_MainTex", Vector2.right * _distance);
+        _material.SetTextureOffset(MainText, Vector2.right * _distance);
     }
 }

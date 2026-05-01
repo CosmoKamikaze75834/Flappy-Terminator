@@ -18,6 +18,6 @@ public class CounterText : MonoBehaviour
 
     private void OnScoreChanged(int score)
     {
-        _text.text = "Убито врагов: " + score.ToString();
+        _text.text = "Enemies killed: " + score.ToString();
     }
 }

@@ -1,16 +1,24 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class PlayerBulletSpawner : GeneralSpawner<BulletPlayer>
 {
-    private const int Delay = 3;
-
     [SerializeField] private Transform _firePoint;
 
-    private WaitForSeconds WaitForSeconds = new WaitForSeconds(Delay);
+    public event Action<Enemy> EnemyHit;
 
-    public event Action<Enemy> BulletHitEnemy;
+    public void SpawnBullet()
+    {
+        BulletPlayer bullet = GetObject();
+
+        bullet.transform.position = _firePoint.transform.position;
+        bullet.transform.rotation = _firePoint.rotation;
+
+        bullet.Attacked += OnBulletAttaked;
+        bullet.BulletCollided += ReleaseObject;
+
+        bullet.Launch(_firePoint.right);
+    }
 
     protected override void PrepareObject(BulletPlayer bullet)
     {
@@ -18,38 +26,14 @@ public class PlayerBulletSpawner : GeneralSpawner<BulletPlayer>
         bullet.ResetState();
     }
 
-    public void GetBullet()
-    {
-        BulletPlayer bullet = GetObject();
-
-        bullet.transform.position = _firePoint.transform.position;
-        bullet.transform.rotation = _firePoint.transform.rotation;
-
-        bullet.Attacked += OnBulletAttaked;
-        
-
-        bullet.Launch(_firePoint.right);
-
-        StartCoroutine(TimeLifeBullet(bullet));
-    }
-
-    public void OnBulletAttaked(BulletPlayer bullet, Enemy enemy)
+    protected override void PrepareForRelease(BulletPlayer bullet)
     {
         bullet.Attacked -= OnBulletAttaked;
-
-        ReturnObject(bullet);
-
-        BulletHitEnemy?.Invoke(enemy);
+        bullet.BulletCollided -= ReleaseObject;
     }
 
-    private IEnumerator TimeLifeBullet(BulletPlayer bullet)
+    private void OnBulletAttaked(BulletPlayer bullet, Enemy enemy)
     {
-        yield return WaitForSeconds;
-
-        if (bullet.gameObject.activeSelf)
-        {
-            bullet.Attacked -= OnBulletAttaked;
-            ReturnObject(bullet);
-        }
+        EnemyHit?.Invoke(enemy);
     }
 }

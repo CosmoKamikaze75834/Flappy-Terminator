@@ -1,73 +1,56 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMover : MonoBehaviour
+public class PlayerMover : PoolableRigidbody2D
 {
-    [SerializeField] private float _tapForse;
+    [SerializeField] private float _tapForñe;
     [SerializeField] private float _speed;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _minRotationZ;
     [SerializeField] private float _maxRotationZ;
 
+    [SerializeField] private FlightAnimation _flightAnimation;
     [SerializeField] private InputSystem _inputSystem;
-    [SerializeField] private AnimationActions _animation;
 
     private Vector3 _startPosition;
-    private Rigidbody2D _rigidbody;
 
     private Quaternion _minRotation;
     private Quaternion _maxRotation;
 
     private float _minValue = 0;
 
-    private float _flyTimer = 0f;
-    private float _flyDuration = 0.5f;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _startPosition = transform.position;
-        _rigidbody = GetComponent<Rigidbody2D>();
 
         _minRotation = Quaternion.Euler(_minValue, _minValue, _minRotationZ);
         _maxRotation = Quaternion.Euler(_minValue, _minValue, _maxRotationZ);
 
-        Reset();
+        ResetState();
     }
 
     private void Update()
     {
         if (_inputSystem.MovePressed)
         {
-            _animation.EstablishFly(true);
-            _flyTimer = _flyDuration;
+            _flightAnimation.InstallAnimation();
+            _flightAnimation.LaunchTimer();
 
-            _rigidbody.velocity = new Vector2(_speed, _tapForse);
+            Rigidbody.velocity = new Vector2(_speed, _tapForñe);
 
             transform.rotation = _maxRotation;
         }
 
-        ProcessingFlyTimes();
+        _flightAnimation.ProcessingFlyTimes(_minValue);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
     }
 
-    private void ProcessingFlyTimes()
+    public override void ResetState()
     {
-        if (_flyTimer > _minValue)
-        {
-            _flyTimer -= Time.deltaTime;
-
-            if (_flyTimer <= _minValue)
-            {
-                _animation.EstablishFly(false);
-            }
-        }
-    }
-
-    public void Reset()
-    {
+        base.ResetState();
         transform.position = _startPosition;
-        _rigidbody.velocity = Vector2.zero;
-        transform.rotation = Quaternion.identity;
     }
 }

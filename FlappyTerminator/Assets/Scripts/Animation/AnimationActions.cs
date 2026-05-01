@@ -12,8 +12,8 @@ public class AnimationActions : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void EstablishFly(bool _isFlight)
+    public void EstablishFly(bool isFlight)
     {
-        _animator.SetBool(IsFlight, _isFlight);
+        _animator.SetBool(IsFlight, isFlight);
     }
 }

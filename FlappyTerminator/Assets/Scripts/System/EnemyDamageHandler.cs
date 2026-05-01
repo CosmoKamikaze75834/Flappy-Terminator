@@ -7,12 +7,12 @@ public class EnemyDamageHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerBulletSpawner.BulletHitEnemy += OnBulletHitEnemy;
+        _playerBulletSpawner.EnemyHit += OnBulletHitEnemy;
     }
 
     private void OnDisable()
     {
-        _playerBulletSpawner.BulletHitEnemy -= OnBulletHitEnemy;
+        _playerBulletSpawner.EnemyHit -= OnBulletHitEnemy;
     }
 
     private void OnBulletHitEnemy(Enemy enemy)

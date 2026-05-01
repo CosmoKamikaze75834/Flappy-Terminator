@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class BulletEnemy : BulletBase
 {
     public event Action<BulletEnemy> BulletCollided;
@@ -19,7 +18,6 @@ public class BulletEnemy : BulletBase
             PlayerHit?.Invoke();
             BulletCollided?.Invoke(this);
         }
-
         else if (collision.TryGetComponent<ObjectRemover>(out _))
             BulletCollided?.Invoke(this);
     }

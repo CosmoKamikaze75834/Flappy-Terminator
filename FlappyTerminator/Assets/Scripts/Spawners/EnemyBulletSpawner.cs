@@ -1,8 +1,20 @@
+using System;
 using UnityEngine;
 
 public class EnemyBulletSpawner : GeneralSpawner<BulletEnemy>
 {
-    [SerializeField] private PlayerDeath _playerDeath;
+    public event Action PlayerHit;
+
+    public void SpawnBullet(Transform firePoint)
+    {
+        BulletEnemy bullet = GetObject();
+
+        bullet.transform.position = firePoint.position;
+
+        bullet.BulletCollided += ReleaseObject;
+        bullet.PlayerHit += OnPlayerHit;
+        bullet.Launch();
+    }
 
     protected override void PrepareObject(BulletEnemy bullet)
     {
@@ -10,22 +22,14 @@ public class EnemyBulletSpawner : GeneralSpawner<BulletEnemy>
         bullet.ResetState();
     }
 
-    public void GetBullet(Transform firePointPosition)
+    protected override void PrepareForRelease(BulletEnemy bulletEnemy)
     {
-        BulletEnemy bullet = GetObject();
-
-        bullet.transform.position = firePointPosition.position;
-        bullet.transform.rotation = firePointPosition.rotation;
-
-        bullet.BulletCollided += ReturnObject;
-        bullet.PlayerHit += _playerDeath.EstablishPause;
-        bullet.Launch();
+        bulletEnemy.BulletCollided -= ReleaseObject;
+        bulletEnemy.PlayerHit -= OnPlayerHit;
     }
 
-    public override void ReturnObject(BulletEnemy bulletEnemy)
+    private void OnPlayerHit()
     {
-        bulletEnemy.BulletCollided -= ReturnObject;
-        bulletEnemy.PlayerHit -= _playerDeath.EstablishPause;
-        base.ReturnObject(bulletEnemy);
+        PlayerHit?.Invoke();
     }
 }

@@ -6,6 +6,6 @@ public class BulletBase : PoolableRigidbody2D
 
     public void Launch(Vector2 direction)
     {
-        _rigidbody.velocity = direction.normalized * _speed;
+        Rigidbody.velocity = direction.normalized * _speed;
     }
 }
