@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class GeneralSpawner <T>: MonoBehaviour where T : MonoBehaviour
+public class GeneralSpawner <T>: MonoBehaviour where T : MonoBehaviour, IPoolable<T>
 {
     [SerializeField] private T _prefab;
     [SerializeField] private int _poolCapacity = 5;
@@ -35,8 +35,9 @@ public class GeneralSpawner <T>: MonoBehaviour where T : MonoBehaviour
 
     public virtual void ReleaseObject(T prefab)
     {
-        PrepareForRelease(prefab);
+        prefab.ReleaseToPool -= ReleaseObject;
 
+        PrepareForRelease(prefab);
         _spawnedObjects.Remove(prefab);
         _pool.Release(prefab);
     }
@@ -56,12 +57,14 @@ public class GeneralSpawner <T>: MonoBehaviour where T : MonoBehaviour
 
     protected virtual T GetObject()
     {
-        T obj = _pool.Get();
+        T prefab = _pool.Get();
 
-        if (_spawnedObjects.Contains(obj) == false)
-            _spawnedObjects.Add(obj);
+        prefab.ReleaseToPool += ReleaseObject;
 
-        return obj;
+        if (_spawnedObjects.Contains(prefab) == false)
+            _spawnedObjects.Add(prefab);
+
+        return prefab;
     }
 
     protected virtual void PrepareForRelease(T prefab) { }

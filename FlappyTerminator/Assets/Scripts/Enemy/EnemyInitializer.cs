@@ -9,10 +9,10 @@ public class EnemyInitializer : MonoBehaviour
         enemy.transform.parent = _container;
         enemy.transform.position = spawnPoint.position;
 
-        if (enemy.TryGetComponent(out EnemyAttacker attacker))
+        if (enemy.Attacker != null)
         {
-            attacker.Init(bulletSpawner);
-            attacker.LaunchAttack();
+            enemy.Attacker.Init(bulletSpawner);
+            enemy.Attacker.LaunchAttack();
         }
     }
 }

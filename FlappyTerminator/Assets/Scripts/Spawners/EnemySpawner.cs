@@ -71,8 +71,6 @@ public class EnemySpawner : GeneralSpawner<Enemy>
         enemy.Died -= ProcessEnemyDied;
         _aliveEnemiesCount--;
 
-        ReleaseObject(enemy);
-
         if (_aliveEnemiesCount <= _minValue)
             StartCoroutine(SpawnNextWave());
     }

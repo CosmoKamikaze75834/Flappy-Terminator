@@ -1,18 +1,16 @@
 using System;
-using Vector3 = UnityEngine.Vector3;
+using UnityEngine;
 
-public class Enemy : PoolableRigidbody2D
+public class Enemy : PoolableRigidbody2D, IPoolable<Enemy>
 {
-    public event Action<Enemy> Died;
+    [SerializeField] private EnemyAttacker _attacker;
 
     private bool _isDead;
 
-    private void Update()
-    {
-        Vector3 position = transform.position;
-        position.z = 3;
-        transform.position = position;
-    }
+    public EnemyAttacker Attacker => _attacker;
+
+    public event Action<Enemy> Died;
+    public event Action<Enemy> ReleaseToPool;
 
     public void Die()
     {
@@ -21,6 +19,7 @@ public class Enemy : PoolableRigidbody2D
 
         _isDead = true;
         Died?.Invoke(this);
+        ReleaseToPool?.Invoke(this);
     }
 
     public override void ResetState()

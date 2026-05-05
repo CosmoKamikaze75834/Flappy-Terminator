@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 559651008689069312}
   - component: {fileID: 4967618617119263627}
-  - component: {fileID: -6505442570962941323}
   - component: {fileID: 5793541550247397604}
   - component: {fileID: -6745920902409602894}
   - component: {fileID: -1917029200709596951}
-  m_Layer: 0
+  - component: {fileID: 4558004332105703269}
+  m_Layer: 10
   m_Name: BulletHero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,19 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6505442570962941323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6161020789979751995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22648fabae8d28f439eee25349fbdcea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 20
 --- !u!50 &5793541550247397604
 Rigidbody2D:
   serializedVersion: 4
@@ -184,3 +171,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4558004332105703269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161020789979751995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef4637265b2f3b40993eeb635fff189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _removerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _speed: 20

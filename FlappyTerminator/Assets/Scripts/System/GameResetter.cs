@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameResetter : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class GameResetter : MonoBehaviour
     [SerializeField] private EnemyBulletSpawner _enemyBulletSpawner;
     [SerializeField] private PlayerBulletSpawner _playerBulletSpawner;
     [SerializeField] private ScoreCounter _score;
-    [SerializeField] private PlayerMover _playerMover;
+    [SerializeField] private Player _player;
 
     public void PrepareNewGame()
     {
@@ -14,7 +15,7 @@ public class GameResetter : MonoBehaviour
         _enemyBulletSpawner.ResetSpawner();
         _playerBulletSpawner.ResetSpawner();
 
-        _playerMover.ResetState();
+        _player.ResetState();
 
         _enemySpawner.LaunchSpawner();
 

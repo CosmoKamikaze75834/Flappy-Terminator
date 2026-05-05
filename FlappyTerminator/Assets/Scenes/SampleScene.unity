@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab3e3389fb1c6e4cb0297df8d997f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: -6505442570962941323, guid: 111c7665cd2c5fa4dba83029317b983c, type: 3}
+  _prefab: {fileID: 4558004332105703269, guid: 111c7665cd2c5fa4dba83029317b983c, type: 3}
   _poolCapacity: 5
   _poolMaxSize: 5
   _firePoint: {fileID: 1659339116}
@@ -617,11 +617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e19f9e4ca40424689bc00d44f07d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyBulletSpawner: {fileID: 943188589}
+  _player: {fileID: 1373778539}
   _startScreen: {fileID: 1512086538}
   _endScreen: {fileID: 1408467229}
-  _deathZone: {fileID: 977375395}
-  _playerMover: {fileID: 1373778533}
   _gameResetter: {fileID: 519420035}
 --- !u!114 &519420035
 MonoBehaviour:
@@ -639,7 +637,7 @@ MonoBehaviour:
   _enemyBulletSpawner: {fileID: 943188589}
   _playerBulletSpawner: {fileID: 367636116}
   _score: {fileID: 1816215335}
-  _playerMover: {fileID: 1373778533}
+  _player: {fileID: 1373778539}
 --- !u!1 &531811086
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +804,7 @@ Transform:
   m_GameObject: {fileID: 781154738}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -941,7 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a85984ff49334f4096e0a3395d6a4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: -3299320316075004451, guid: 3c9cb77a4df22d94889841c5a708f1d3, type: 3}
+  _prefab: {fileID: 6676298210389740367, guid: 3c9cb77a4df22d94889841c5a708f1d3, type: 3}
   _poolCapacity: 5
   _poolMaxSize: 5
 --- !u!4 &943188590
@@ -1072,7 +1070,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 954671ad0b7d2fb499263ff1a4a4e0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1373778541}
 --- !u!61 &977375396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1370,7 +1367,7 @@ GameObject:
   - component: {fileID: 1242277776}
   - component: {fileID: 1242277778}
   - component: {fileID: 1242277777}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ZoneRemoverBulletEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1532,9 +1529,8 @@ GameObject:
   - component: {fileID: 1373778533}
   - component: {fileID: 1373778539}
   - component: {fileID: 1373778540}
-  - component: {fileID: 1373778541}
   - component: {fileID: 1373778542}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1747,6 +1743,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f617940434a2846955360c32e27052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerMover: {fileID: 1373778533}
+  _attacker: {fileID: 1373778540}
+  _flightAnimation: {fileID: 1373778542}
 --- !u!114 &1373778540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1761,19 +1760,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawner: {fileID: 367636116}
   _inputSystem: {fileID: 1373778534}
---- !u!114 &1373778541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373778530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44374b955f574bc4f88dcba35adcf876, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 1373778539}
 --- !u!114 &1373778542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2249,7 +2235,7 @@ GameObject:
   - component: {fileID: 1624895281}
   - component: {fileID: 1624895283}
   - component: {fileID: 1624895282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ZoneRemoverBulletPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2392,7 +2378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659339116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

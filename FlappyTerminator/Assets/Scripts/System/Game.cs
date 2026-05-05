@@ -5,11 +5,11 @@ public class Game : MonoBehaviour
     private const float TimePause = 0;
     private const float TimePlay = 1f;
 
-    [SerializeField] private EnemyBulletSpawner _enemyBulletSpawner;
+    [SerializeField] private Player _player;
+
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private RestartScreen _endScreen;
-    [SerializeField] private DeathZone _deathZone;
-    [SerializeField] private PlayerMover _playerMover;
+
     [SerializeField] private GameResetter _gameResetter;
 
     private void OnEnable()
@@ -17,8 +17,7 @@ public class Game : MonoBehaviour
         _startScreen.PlayButtonClicked += OnPlayButtonClicked;
         _endScreen.RestartButtonClicked += OnRestartButtonClick;
 
-        _enemyBulletSpawner.PlayerHit += OnGameOver;
-        _deathZone.PlayerEntered += OnGameOver;
+        _player.Died += OnGameOver;
     }
 
     private void OnDisable()
@@ -26,15 +25,17 @@ public class Game : MonoBehaviour
         _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
         _endScreen.RestartButtonClicked -= OnRestartButtonClick;
 
-        _enemyBulletSpawner.PlayerHit -= OnGameOver;
-        _deathZone.PlayerEntered -= OnGameOver;
+        _player.Died -= OnGameOver;
     }
 
     private void Start()
     {
         Time.timeScale = TimePause;
+
         _endScreen.Close();
         _startScreen.Open();
+
+        _player.DisableControl();
     }
 
     private void OnGameOver()
@@ -59,6 +60,6 @@ public class Game : MonoBehaviour
     {
         _gameResetter.PrepareNewGame();
         Time.timeScale = TimePlay;
-        _playerMover.enabled = true;
+        _player.EnableControl();
     }
 }

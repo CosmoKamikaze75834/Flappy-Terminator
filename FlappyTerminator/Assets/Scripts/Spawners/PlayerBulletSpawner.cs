@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerBulletSpawner : GeneralSpawner<BulletPlayer>
+public class PlayerBulletSpawner : GeneralSpawner<Bullet>
 {
     [SerializeField] private Transform _firePoint;
 
@@ -9,31 +9,33 @@ public class PlayerBulletSpawner : GeneralSpawner<BulletPlayer>
 
     public void SpawnBullet()
     {
-        BulletPlayer bullet = GetObject();
+        Bullet bullet = GetObject();
 
         bullet.transform.position = _firePoint.transform.position;
         bullet.transform.rotation = _firePoint.rotation;
 
-        bullet.Attacked += OnBulletAttaked;
-        bullet.BulletCollided += ReleaseObject;
+        bullet.TargetHit += OnTargetHit;
 
         bullet.Launch(_firePoint.right);
     }
 
-    protected override void PrepareObject(BulletPlayer bullet)
+
+    protected override void PrepareObject(Bullet bullet)
     {
         base.PrepareObject(bullet);
         bullet.ResetState();
     }
 
-    protected override void PrepareForRelease(BulletPlayer bullet)
+    protected override void PrepareForRelease(Bullet bullet)
     {
-        bullet.Attacked -= OnBulletAttaked;
-        bullet.BulletCollided -= ReleaseObject;
+        bullet.TargetHit -= OnTargetHit;
     }
 
-    private void OnBulletAttaked(BulletPlayer bullet, Enemy enemy)
+    private void OnTargetHit(Bullet bullet, Collider2D collision)
     {
-        EnemyHit?.Invoke(enemy);
+        if(collision.TryGetComponent(out Enemy enemy))
+        {
+            EnemyHit?.Invoke(enemy);
+        }
     }
 }

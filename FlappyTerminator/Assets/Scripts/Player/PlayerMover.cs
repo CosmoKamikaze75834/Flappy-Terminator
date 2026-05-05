@@ -19,6 +19,12 @@ public class PlayerMover : PoolableRigidbody2D
 
     private float _minValue = 0;
 
+    public override void ResetState()
+    {
+        base.ResetState();
+        transform.position = _startPosition;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -43,14 +49,8 @@ public class PlayerMover : PoolableRigidbody2D
             transform.rotation = _maxRotation;
         }
 
-        _flightAnimation.ProcessingFlyTimes(_minValue);
+        _flightAnimation.ProcessingFlyTimes();
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
-    }
-
-    public override void ResetState()
-    {
-        base.ResetState();
-        transform.position = _startPosition;
     }
 }

@@ -1,35 +1,34 @@
-using System;
 using UnityEngine;
 
-public class EnemyBulletSpawner : GeneralSpawner<BulletEnemy>
+public class EnemyBulletSpawner : GeneralSpawner<Bullet>
 {
-    public event Action PlayerHit;
-
     public void SpawnBullet(Transform firePoint)
     {
-        BulletEnemy bullet = GetObject();
+        Bullet bullet = GetObject();
 
         bullet.transform.position = firePoint.position;
 
-        bullet.BulletCollided += ReleaseObject;
-        bullet.PlayerHit += OnPlayerHit;
-        bullet.Launch();
+        bullet.TargetHit += OnTargetHit;
+
+        bullet.Launch(Vector2.left);
     }
 
-    protected override void PrepareObject(BulletEnemy bullet)
+    protected override void PrepareObject(Bullet bullet)
     {
         base.PrepareObject(bullet);
         bullet.ResetState();
     }
 
-    protected override void PrepareForRelease(BulletEnemy bulletEnemy)
+    protected override void PrepareForRelease(Bullet bullet)
     {
-        bulletEnemy.BulletCollided -= ReleaseObject;
-        bulletEnemy.PlayerHit -= OnPlayerHit;
+        bullet.TargetHit -= OnTargetHit;
     }
 
-    private void OnPlayerHit()
+    private void OnTargetHit(Bullet bullet, Collider2D collision)
     {
-        PlayerHit?.Invoke();
+        if (collision.TryGetComponent(out Player player))
+        {
+            player.Die();
+        }
     }
 }

@@ -5,7 +5,9 @@ public class FlightAnimation : MonoBehaviour
     [SerializeField] private AnimationActions _animation;
 
     private float _flightTimer = 0f;
-    private float _flightDuration = 0.5f; 
+    private float _flightDuration = 0.5f;
+    private float _minValue = 0f;
+
 
     public void InstallAnimation()
     {
@@ -17,16 +19,22 @@ public class FlightAnimation : MonoBehaviour
         _flightTimer = _flightDuration;
     }
 
-    public void ProcessingFlyTimes(float minValue)
+    public void ProcessingFlyTimes()
     {
-        if (_flightTimer > minValue)
+        if (_flightTimer > _minValue)
         {
             _flightTimer -= Time.deltaTime;
 
-            if (_flightTimer <= minValue)
+            if (_flightTimer <= _minValue)
             {
                 _animation.EstablishFly(false);
             }
         }
+    }
+
+    public void ResetState()
+    {
+        _flightTimer = _minValue;
+        _animation.EstablishFly(false);
     }
 }
